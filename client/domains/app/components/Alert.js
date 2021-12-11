@@ -41,7 +41,7 @@ function Alert({
   const alertDismissClassName = setClassName(alertDismissClasses)
 
   return (
-    <div className={alertClassName}>
+    <div className={alertClassName} data-id="alert">
       <p className="w-full">{text}</p>
       {isDismissable && (
         <button className={alertDismissClassName} onClick={onDismiss}>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCurrentGuest, addNewGuest } from './apis'
 import { useRequest, useAlert } from '../app/hooks'
 
-export function useGetGuest() {
+export function useGetGuest({ showAlert = true } = {}) {
   const dispatch = useDispatch()
   const guest = useSelector((state) => state.guest.user)
   const { sendAlert } = useAlert()
@@ -20,7 +20,7 @@ export function useGetGuest() {
         },
       })
     }
-    if (isFailed) {
+    if (isFailed && showAlert) {
       errors.alerts.map(sendAlert)
     }
   }, [fields.name, isSuccessful, isFailed, dispatch])

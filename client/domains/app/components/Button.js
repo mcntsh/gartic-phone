@@ -69,7 +69,7 @@ function Button({
 
   if (href) {
     return (
-      <a href={href} className={className} onClick={onClick}>
+      <a href={href} className={className} onClick={onClick} data-id="button">
         {text}
       </a>
     )
@@ -80,6 +80,7 @@ function Button({
       type={isSubmit ? 'submit' : 'button'}
       className={className}
       onClick={onClick}
+      data-id="button"
     >
       {text}
     </button>

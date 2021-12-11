@@ -14,14 +14,20 @@ const guestLoadingClasses = {
   use: 'text-gray-400',
 }
 
-function NewGuestForm() {
+function NewGuestForm({ isLoading, setIsLoading }) {
   const [name, setName] = React.useState('')
-  const { isLoading, errors, addNewGuest } = useNewGuest()
+  const { isLoading: isAddLoading, errors, addNewGuest } = useNewGuest()
+
+  React.useEffect(() => {
+    setIsLoading(isAddLoading)
+  }, [isAddLoading])
 
   const submitForm = React.useCallback(
     (e) => {
       e.preventDefault()
-      addNewGuest({ name })
+      if (!isLoading) {
+        addNewGuest({ name })
+      }
     },
     [name]
   )
@@ -66,10 +72,18 @@ function GuestSuccess({ name }) {
 
 function GuestNew() {
   const { redirect } = useRedirect()
-  const { guest, isLoading, getGuest } = useGetGuest()
+  const [isAddLoading, setIsAddLoading] = React.useState(false)
+  const {
+    guest,
+    isLoading: isGetLoading,
+    getGuest,
+  } = useGetGuest({ showAlert: false })
+
+  const isLoading = isGetLoading || isAddLoading
+
   const setClassName = useUtilityClasses({ isLoading })
 
-  const className = setClassName(guestLoadingClasses)
+  const guestNewClassName = setClassName(guestLoadingClasses)
 
   React.useEffect(() => {
     if (!guest) {
@@ -81,8 +95,12 @@ function GuestNew() {
 
   return (
     <AppLayout>
-      <section className={className}>
-        {guest ? <GuestSuccess name={guest.name} /> : <NewGuestForm />}
+      <section data-id="route-guest-new" className={guestNewClassName}>
+        {guest ? (
+          <GuestSuccess name={guest.name} />
+        ) : (
+          <NewGuestForm isLoading={isLoading} setIsLoading={setIsAddLoading} />
+        )}
       </section>
     </AppLayout>
   )

@@ -41,7 +41,7 @@ function GameNew() {
 
   return (
     <AppLayout isCentered>
-      <section className={gameNewClassName}>
+      <section data-id="route-game-new" className={gameNewClassName}>
         <div className={iconWrapperClassName}>
           <Icon type={isNewGameLoading ? 'loading' : 'game'} />
         </div>

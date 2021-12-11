@@ -7,23 +7,25 @@ import GuestNew from './domains/guest/routes/GuestNew'
 import GameNew from './domains/game/routes/GameNew'
 import Game from './domains/game/routes/Game'
 
-function GuestRoute() {
+function GuestRoute({ context }) {
   const { guest } = useGetGuest()
   const { getPathWithRedirect } = useRedirect()
 
   if (!guest) {
-    return <Navigate to={getPathWithRedirect('/guest')} />
+    context.redirect = getPathWithRedirect('/guest')
+
+    return <Navigate to={context.redirect} />
   }
 
   return <Outlet />
 }
 
-function Router() {
+function Router({ context } = {}) {
   return (
     <Routes>
       <Route exact path="/" element={<AppHome />} />
       <Route path="guest" element={<GuestNew />} />
-      <Route path="game" element={<GuestRoute />}>
+      <Route path="game" element={<GuestRoute context={context} />}>
         <Route path=":gameId" element={<Game />} />
         <Route index element={<GameNew />} />
       </Route>

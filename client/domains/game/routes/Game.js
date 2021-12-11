@@ -6,7 +6,7 @@ import Spacing from '../../app/components/Spacing'
 function Game() {
   return (
     <AppLayout isCentered>
-      <section>
+      <section data-id="route-game">
         <Text type="heading">Game</Text>
         <Spacing size="small" />
         <Text type="paragraph">This is a game</Text>

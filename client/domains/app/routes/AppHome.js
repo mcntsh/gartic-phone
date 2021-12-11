@@ -16,7 +16,7 @@ function AppHome() {
 
   return (
     <AppLayout isCentered>
-      <section className={homeClassName}>
+      <section data-id="route-app-home" className={homeClassName}>
         <div className={iconWrapperClassName}>
           <Icon type="home" />
         </div>

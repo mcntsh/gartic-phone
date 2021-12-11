@@ -53,6 +53,7 @@ function TextInput({
       value={value}
       className={className}
       onChange={onChange}
+      data-id="text-input"
     />
   )
 }

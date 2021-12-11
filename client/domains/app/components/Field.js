@@ -14,7 +14,7 @@ function Field({ error, children }) {
   const fieldErrorClassName = setClassName(fieldErrorClasses)
 
   return (
-    <fieldset className={fieldClassName}>
+    <fieldset className={fieldClassName} data-id="field">
       {React.cloneElement(children, { error })}
       {hasError && <span className={fieldErrorClassName}>{error}</span>}
     </fieldset>

@@ -28,13 +28,18 @@ router.get('/*', async (req, res, next) => {
     guest: { user: guest },
   }
 
+  const context = {}
   const app = ReactDOMServer.renderToString(
     <StaticRouter location={req.originalUrl}>
       <ClientApp preloadedState={preloadedState}>
-        <ClientRouter />
+        <ClientRouter context={context} />
       </ClientApp>
     </StaticRouter>
   )
+
+  if (context.redirect) {
+    return res.redirect(302, context.redirect)
+  }
 
   const indexFile = path.resolve('./build/index.html')
   fs.readFile(indexFile, 'utf8', (err, data) => {
