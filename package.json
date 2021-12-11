@@ -1,0 +1,52 @@
+{
+  "name": "gartic-phone",
+  "main": "./build/index.js",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build:tailwind": "npx tailwindcss -o ./build/bundle.css",
+    "build:client": "webpack --config ./webpack.client.js",
+    "run:client": "webpack --env run --config ./webpack.client.js",
+    "prebuild:server": "npm run build:client",
+    "build:server": "webpack --config ./webpack.server.js",
+    "prerun:server": "npm run build:server",
+    "run:server": "node --enable-source-maps build/server.js",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.0.2",
+    "redux": "^4.1.2",
+    "request-ip": "^2.1.3",
+    "sequelize": "^6.12.0-alpha.1",
+    "sqlite3": "^5.0.2",
+    "tailwindcss": "^2.2.19",
+    "use-utility-classes": "^1.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/plugin-transform-react-jsx": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "eslint": "^8.4.1",
+    "eslint-plugin-react": "^7.27.1",
+    "husky": "^7.0.4",
+    "nodemon": "^1.19.4",
+    "prettier": "^2.5.0",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-import-glob-loader": "^1.6.3",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
