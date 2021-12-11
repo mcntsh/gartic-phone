@@ -26,7 +26,7 @@ function Router({ context } = {}) {
       <Route exact path="/" element={<AppHome />} />
       <Route path="guest" element={<GuestNew />} />
       <Route path="game" element={<GuestRoute context={context} />}>
-        <Route path=":gameId" element={<Game />} />
+        <Route path=":uuid" element={<Game />} />
         <Route index element={<GameNew />} />
       </Route>
     </Routes>

@@ -22,7 +22,7 @@ function AppLayoutAlerts() {
   )
 }
 
-const layoutBannerClasses = 'p-4 flex flex-row'
+const layoutBannerClasses = 'p-4 flex flex-row items-center'
 const layoutBannerNavClasses = 'ml-auto'
 const layoutBannerNavlistClasses = 'flex flex-row justify-end'
 const layoutBannerLogoClasses = 'font-bold tracking-tighter text-lg'

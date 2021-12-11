@@ -17,10 +17,10 @@ router.get('/', corsOpen, guestRequired, (req, res) => {
   )
 })
 
-router.get('/:id', corsOpen, guestRequired, async (req, res) => {
-  const { id } = req.params
+router.get('/:uuid', corsOpen, guestRequired, async (req, res) => {
+  const { uuid } = req.params
   try {
-    const game = await Game.findByUUID(id)
+    const game = await Game.findByUUID(uuid)
 
     respondJson(
       {

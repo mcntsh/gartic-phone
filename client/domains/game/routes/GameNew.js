@@ -13,7 +13,7 @@ const iconWrapperLoadingClasses = {
   when: { isNewGameLoading: true },
   use: 'animate-spin',
 }
-const routeClasses = {
+const gameNewClasses = {
   when: { isNewGameLoading: true },
   use: 'text-gray-400',
 }
@@ -27,7 +27,7 @@ function GameNew() {
   const navigate = useNavigate()
   const setClassName = useUtilityClasses({ isNewGameLoading })
 
-  const gameNewClassName = setClassName(routeClasses)
+  const gameNewClassName = setClassName(gameNewClasses)
   const iconWrapperClassName = setClassName(
     iconWrapperClasses,
     iconWrapperLoadingClasses

@@ -7,7 +7,7 @@ async function respondJson(
   response.status(code)
 
   if (body instanceof Model) {
-    body = body.get({ raw: true })
+    body = body.get({ plain: true })
   }
 
   response.body = {

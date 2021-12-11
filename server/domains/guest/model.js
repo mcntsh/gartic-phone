@@ -1,4 +1,5 @@
 import { Model, DataTypes, UUIDV4 } from 'sequelize'
+import randomColor from 'randomcolor'
 import returnFinder from '../../helpers/returnFinder'
 import Game, { GameGuest } from '../game/model'
 import database from '../../database'
@@ -23,6 +24,15 @@ Guest.init(
     },
     token: {
       type: DataTypes.UUID,
+      allowNull: false,
+    },
+    color: {
+      type: DataTypes.STRING,
+      defaultValue: () => {
+        return randomColor({
+          luminosity: 'light',
+        })
+      },
       allowNull: false,
     },
     name: {
@@ -54,7 +64,7 @@ export function init() {
   // Scopes
 
   Guest.addScope('defaultScope', {
-    attributes: ['uuid', 'name', 'date_created'],
+    attributes: ['uuid', 'name', 'color', 'date_created'],
   })
 
   // Hooks

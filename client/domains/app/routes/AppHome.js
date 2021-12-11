@@ -6,17 +6,17 @@ import Spacing from '../components/Spacing'
 import Icon from '../components/Icon'
 
 const iconWrapperClasses = 'w-1/4 m-auto'
-const routeClasses = 'text-gray-400'
+const appHomeClasses = 'text-gray-400'
 
 function AppHome() {
   const setClassName = useUtilityClasses()
 
-  const homeClassName = setClassName(routeClasses)
+  const appHomeClassName = setClassName(appHomeClasses)
   const iconWrapperClassName = setClassName(iconWrapperClasses)
 
   return (
     <AppLayout isCentered>
-      <section data-id="route-app-home" className={homeClassName}>
+      <section data-id="route-app-home" className={appHomeClassName}>
         <div className={iconWrapperClassName}>
           <Icon type="home" />
         </div>

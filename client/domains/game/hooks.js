@@ -1,23 +1,32 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { addNewGame, getGame } from './apis'
 import { useRequest, useAlert } from '../app/hooks'
 
 export function useGetGame() {
   const dispatch = useDispatch()
   const { sendAlert } = useAlert()
+  const game = useSelector((state) => state.game)
 
   const { fields, errors, isLoading, isSuccessful, isFailed, makeRequest } =
     useRequest(getGame)
 
   React.useEffect(() => {
+    if (isSuccessful) {
+      dispatch({
+        type: 'SET_GAME',
+        payload: {
+          ...fields,
+        },
+      })
+    }
     if (isFailed) {
       errors.alerts.map(sendAlert)
     }
-  }, [fields.name, isSuccessful, isFailed, dispatch])
+  }, [isSuccessful, isFailed])
 
   return {
-    game: Object.keys(fields).length ? fields : null,
+    game: Object.keys(fields).length ? fields : game,
     getGame: makeRequest,
     isLoading,
     errors,
@@ -38,12 +47,10 @@ export function useNewGame() {
         message: 'Game created!',
       })
     }
-
     if (isFailed) {
-      console.log(errors)
       errors.alerts.map(sendAlert)
     }
-  }, [fields.name, isSuccessful, isFailed, dispatch])
+  }, [fields, isSuccessful, isFailed, dispatch])
 
   return {
     game: Object.keys(fields).length ? fields : null,

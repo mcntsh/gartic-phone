@@ -10,6 +10,6 @@ router.use('/api/*', skipClientRouter)
 router.use('/api/guest', guest)
 router.use('/api/game', game)
 
-router.use('*', client)
+router.use('/', client)
 
 export default router

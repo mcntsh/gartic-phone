@@ -161,6 +161,7 @@ export function init() {
         attributes: [
           'uuid',
           'name',
+          'color',
           [literal('`guests->game_guests`.`date_created`'), 'date_joined'],
         ],
       },
