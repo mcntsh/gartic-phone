@@ -2,13 +2,13 @@ import { Router } from 'express'
 import Game from './model'
 import respondJson from '../../helpers/respondJson'
 import { corsOpen } from '../../middleware/cors'
-import guest from '../../middleware/guest'
+import { guestRequired } from '../../middleware/guest'
 
 const router = Router()
 
 router.options('*', corsOpen)
 
-router.get('/', corsOpen, guest, (req, res) => {
+router.get('/', corsOpen, guestRequired, (req, res) => {
   respondJson(
     {
       code: 404,
@@ -17,7 +17,7 @@ router.get('/', corsOpen, guest, (req, res) => {
   )
 })
 
-router.get('/:id', corsOpen, guest, async (req, res) => {
+router.get('/:id', corsOpen, guestRequired, async (req, res) => {
   const { id } = req.params
   try {
     const game = await Game.findByUUID(id)
@@ -45,7 +45,7 @@ router.get('/:id', corsOpen, guest, async (req, res) => {
   }
 })
 
-router.post('/', corsOpen, guest, async (req, res) => {
+router.post('/', corsOpen, guestRequired, async (req, res) => {
   try {
     const game = await Game.create()
     await req.guest.addGame(game)

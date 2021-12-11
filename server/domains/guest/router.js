@@ -6,13 +6,13 @@ import respondJson from '../../helpers/respondJson'
 import generateToken from '../../helpers/generateToken'
 import { corsOpen } from '../../middleware/cors'
 import valid from '../../middleware/valid'
-import guest from '../../middleware/guest'
+import { guestRequired } from '../../middleware/guest'
 
 const router = Router()
 
 router.options('*', corsOpen)
 
-router.get('/', corsOpen, guest, (req, res) => {
+router.get('/', corsOpen, guestRequired, (req, res) => {
   respondJson(
     {
       code: 200,

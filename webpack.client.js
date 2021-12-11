@@ -33,13 +33,14 @@ module.exports = (env) => ({
       },
     ],
   },
-  watch: env.run,
+  watch: env.watch,
   watchOptions: {
     ignored: ['build', 'node_modules', 'server'],
   },
 
+  devtool: env.development ? 'eval-cheap-source-map' : undefined,
   optimization: {
-    minimize: false,
+    minimize: !env.development,
   },
 
   plugins: [

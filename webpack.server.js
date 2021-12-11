@@ -1,7 +1,7 @@
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
-module.exports = {
+module.exports = (env) => ({
   entry: './server/index.js',
 
   target: 'node',
@@ -11,6 +11,16 @@ module.exports = {
   output: {
     path: path.resolve('build'),
     filename: 'server.js',
+  },
+
+  watch: env.watch,
+  watchOptions: {
+    ignored: ['build', 'node_modules', 'client'],
+  },
+
+  devtool: env.development ? 'eval-cheap-source-map' : undefined,
+  optimization: {
+    minimize: !env.development,
   },
 
   module: {
@@ -49,4 +59,4 @@ module.exports = {
       },
     ],
   },
-}
+})

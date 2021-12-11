@@ -1,16 +1,20 @@
 import Guest from '../domains/guest/model'
 import respondJson from '../helpers/respondJson'
 
-async function guest(req, res, next) {
+async function fetchGuest(req) {
+  const { guest_uuid, guest_token } = req.cookies
+  const guest = await Guest.findByAuth({
+    uuid: guest_uuid,
+    token: guest_token,
+  })
+
+  req.guest = guest
+  req.reduxState.guest = { user: guest.get({ raw: true }) }
+}
+
+export async function guestRequired(req, res, next) {
   try {
-    const { guest_uuid, guest_token } = req.cookies
-    const guest = await Guest.findByAuth({
-      uuid: guest_uuid,
-      token: guest_token,
-    })
-
-    req.guest = guest
-
+    await fetchGuest(req)
     next()
   } catch (e) {
     respondJson(
@@ -28,4 +32,12 @@ async function guest(req, res, next) {
   }
 }
 
-export default guest
+export async function guestOptional(req, res, next) {
+  try {
+    await fetchGuest(req)
+  } catch {
+    console.log('Without guest record')
+  }
+
+  next()
+}

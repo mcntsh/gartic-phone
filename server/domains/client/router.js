@@ -4,31 +4,18 @@ import path from 'path'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
-import Guest from '../guest/model'
 import ClientRouter from '../../../client/router'
 import ClientApp from '../../../client/App'
+import { guestOptional } from '../../middleware/guest'
 
 const router = Router()
 
-router.get('/*', async (req, res, next) => {
+router.get('/*', guestOptional, async (req, res, next) => {
   if (req.skipClientRouter) return next()
 
-  const { guest_uuid } = req.cookies
-
-  let guest
-  try {
-    guest = await Guest.findByUUID(guest_uuid)
-    guest = guest.get({ raw: true })
-  } catch {
-    guest = null
-  }
-
-  const preloadedState = {
-    app: { apiUrl: 'http://localhost:3000' },
-    guest: { user: guest },
-  }
-
+  const preloadedState = req.reduxState
   const context = {}
+
   const app = ReactDOMServer.renderToString(
     <StaticRouter location={req.originalUrl}>
       <ClientApp preloadedState={preloadedState}>

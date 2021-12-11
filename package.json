@@ -6,11 +6,11 @@
   "scripts": {
     "build:tailwind": "npx tailwindcss -o ./build/bundle.css",
     "build:client": "webpack --config ./webpack.client.js",
-    "run:client": "webpack --env run --config ./webpack.client.js",
+    "run:client": "webpack --env watch ./webpack.client.js",
     "prebuild:server": "npm run build:client",
     "build:server": "webpack --config ./webpack.server.js",
     "prerun:server": "npm run build:server",
-    "run:server": "node --enable-source-maps build/server.js",
+    "run:server": "node build/server.js",
     "test:eslint": "npx eslint .",
     "test": "npm run test:eslint",
     "prepare": "husky install"
