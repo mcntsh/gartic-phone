@@ -1,10 +1,12 @@
-const initialState = null
+const initialState = {
+  data: null,
+}
 
 function game(state = initialState, action) {
   switch (action.type) {
     case 'SET_GAME':
       return {
-        ...action.payload,
+        data: action.payload,
       }
     default:
       return state

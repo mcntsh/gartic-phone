@@ -6,7 +6,7 @@ import { useRequest, useAlert } from '../app/hooks'
 export function useGetGame() {
   const dispatch = useDispatch()
   const { sendAlert } = useAlert()
-  const game = useSelector((state) => state.game)
+  const game = useSelector((state) => state.game.data)
 
   const { fields, errors, isLoading, isSuccessful, isFailed, makeRequest } =
     useRequest(getGame)
@@ -26,7 +26,7 @@ export function useGetGame() {
   }, [isSuccessful, isFailed])
 
   return {
-    game: Object.keys(fields).length ? fields : game,
+    game,
     getGame: makeRequest,
     isLoading,
     errors,

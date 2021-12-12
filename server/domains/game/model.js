@@ -5,19 +5,16 @@ import { GAME_ROUND_TYPES } from './constants'
 import database from '../../database'
 
 class Game extends Model {
-  get value() {
-    return {
-      uuid: this.uuid,
-      dateCreated: this.date_created,
-    }
-  }
-
   static async findByUUID(uuid = '') {
     const game = await this.findOne({
       where: { uuid },
     })
 
     return returnFinder(game)
+  }
+
+  async start() {
+    await this.update({ started: true })
   }
 }
 
@@ -27,6 +24,11 @@ Game.init(
       primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: UUIDV4,
+      allowNull: false,
+    },
+    started: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false,
     },
   },
@@ -133,6 +135,7 @@ export function init() {
   Game.addScope('defaultScope', {
     attributes: [
       'uuid',
+      'started',
       'date_created',
       [
         literal(`(

@@ -4,27 +4,17 @@ import path from 'path'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
-import Game from '../game/model'
+import { guestAttach } from '../../middleware/guest'
+import { gameAttach } from '../../middleware/game'
 import ClientRouter from '../../../client/router'
 import ClientApp from '../../../client/App'
-import { guestOptional } from '../../middleware/guest'
-import addReduxAlert from '../../helpers/addReduxAlert'
 
 const router = Router()
 
-router.get('/game/:uuid', async (req, res, next) => {
-  try {
-    const { uuid } = req.params
-    const game = await Game.findByUUID(uuid)
-    req.reduxState.game = game.get({ plain: true })
-  } catch (e) {
-    addReduxAlert({ intent: 'danger', message: 'Could not find game!' }, req)
-  }
+router.all('*', guestAttach)
+router.all('/game/:uuid', gameAttach)
 
-  next()
-})
-
-router.get('/*', guestOptional, async (req, res, next) => {
+router.get('/*', async (req, res, next) => {
   if (req.skipClientRouter) return next()
 
   const preloadedState = req.reduxState

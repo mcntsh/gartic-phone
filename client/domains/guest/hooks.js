@@ -23,10 +23,10 @@ export function useGetGuest({ showAlert = true } = {}) {
     if (isFailed && showAlert) {
       errors.alerts.map(sendAlert)
     }
-  }, [fields.name, isSuccessful, isFailed, dispatch])
+  }, [fields, isSuccessful, isFailed])
 
   return {
-    guest: Object.keys(fields).length ? fields : guest,
+    guest,
     getGuest: makeRequest,
     isLoading,
     errors,
@@ -61,7 +61,7 @@ export function useNewGuest() {
   }, [fields.name, isSuccessful, isFailed, dispatch])
 
   return {
-    guest: Object.keys(fields).length ? fields : guest,
+    guest,
     addNewGuest: makeRequest,
     isLoading,
     errors,

@@ -6,7 +6,7 @@ import Spacing from '../../app/components/Spacing'
 
 const iconWrapperClasses = 'w-1/4 m-auto animate-spin'
 
-function GuestWelcome() {
+function GameFetching() {
   const setClassName = useUtilityClasses()
 
   const iconWrapperClassName = setClassName(iconWrapperClasses)
@@ -24,4 +24,4 @@ function GuestWelcome() {
   )
 }
 
-export default GuestWelcome
+export default GameFetching

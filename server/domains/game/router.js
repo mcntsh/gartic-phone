@@ -2,13 +2,25 @@ import { Router } from 'express'
 import Game from './model'
 import respondJson from '../../helpers/respondJson'
 import { corsOpen } from '../../middleware/cors'
-import { guestRequired } from '../../middleware/guest'
+import { guestAttach, guestRequired } from '../../middleware/guest'
+import {
+  gameAttach,
+  gameRequired,
+  gameNotStarted,
+  gameNotJoined,
+  gameJoined,
+  gameJoinedIfStarted,
+  gameCreated,
+} from '../../middleware/game'
 
 const router = Router()
 
 router.options('*', corsOpen)
 
-router.get('/', corsOpen, guestRequired, (req, res) => {
+router.all('*', guestAttach)
+router.all('/:uuid', gameAttach)
+
+router.get('/', corsOpen, (req, res) => {
   respondJson(
     {
       code: 404,
@@ -17,33 +29,36 @@ router.get('/', corsOpen, guestRequired, (req, res) => {
   )
 })
 
-router.get('/:uuid', corsOpen, guestRequired, async (req, res) => {
-  const { uuid } = req.params
-  try {
-    const game = await Game.findByUUID(uuid)
-
+router.get(
+  '/:uuid',
+  corsOpen,
+  guestRequired,
+  gameRequired,
+  gameJoinedIfStarted,
+  async (req, res) => {
+    if (req.game) {
+      return respondJson(
+        {
+          code: 200,
+          body: req.game,
+        },
+        res
+      )
+    }
     respondJson(
       {
-        code: 200,
-        body: game,
-      },
-      res
-    )
-  } catch (e) {
-    respondJson(
-      {
-        code: 400,
+        code: 404,
         alerts: [
           {
             intent: 'danger',
-            message: 'Something went wrong fetching the game.',
+            message: 'Game not found.',
           },
         ],
       },
       res
     )
   }
-})
+)
 
 router.post('/', corsOpen, guestRequired, async (req, res) => {
   try {
@@ -73,5 +88,62 @@ router.post('/', corsOpen, guestRequired, async (req, res) => {
     )
   }
 })
+
+router.post(
+  '/:uuid/join',
+  corsOpen,
+  guestRequired,
+  gameRequired,
+  gameNotJoined,
+  gameNotStarted,
+  async (req, res) => {
+    try {
+      await req.game.addGuest(req.guest)
+      respondJson({ code: 200 }, res)
+    } catch (e) {
+      respondJson(
+        {
+          code: 400,
+          alerts: [
+            {
+              intent: 'danger',
+              message: 'Something went wrong joining the game.',
+            },
+          ],
+        },
+        res
+      )
+    }
+  }
+)
+
+router.post(
+  '/:uuid/start',
+  corsOpen,
+  guestRequired,
+  gameRequired,
+  gameNotStarted,
+  gameJoined,
+  gameCreated,
+  async (req, res) => {
+    try {
+      await req.game.start()
+      respondJson({ code: 200 }, res)
+    } catch (e) {
+      respondJson(
+        {
+          code: 400,
+          alerts: [
+            {
+              intent: 'danger',
+              message: 'Something went wrong starting the game.',
+            },
+          ],
+        },
+        res
+      )
+    }
+  }
+)
 
 export default router

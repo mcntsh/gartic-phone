@@ -45,10 +45,6 @@ function GamePlayers() {
 
   const playerWrapperClassName = setClassName(playerWrapperClasses)
 
-  if (!game) {
-    return null
-  }
-
   return (
     <ul className={playerWrapperClassName}>
       {game.guests.map((guest) => (
