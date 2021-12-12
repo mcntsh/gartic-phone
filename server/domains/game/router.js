@@ -18,7 +18,7 @@ const router = Router()
 router.options('*', corsOpen)
 
 router.all('*', guestAttach)
-router.all('/:uuid', gameAttach)
+router.all('/:uuid*', gameAttach)
 
 router.get('/', corsOpen, (req, res) => {
   respondJson(

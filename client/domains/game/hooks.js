@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addNewGame, getGame } from './apis'
+import { addNewGame, getGame, startGame, joinGame } from './apis'
 import { useRequest, useAlert } from '../app/hooks'
 
 export function useGetGame() {
@@ -55,6 +55,46 @@ export function useNewGame() {
   return {
     game: Object.keys(fields).length ? fields : null,
     addNewGame: makeRequest,
+    isLoading,
+    errors,
+  }
+}
+
+export function useStartGame() {
+  const { sendAlert } = useAlert()
+
+  const { errors, isLoading, isSuccessful, isFailed, makeRequest } =
+    useRequest(startGame)
+
+  React.useEffect(() => {
+    if (isFailed) {
+      errors.alerts.map(sendAlert)
+    }
+  }, [isFailed])
+
+  return {
+    startGame: makeRequest,
+    isSuccessful,
+    isLoading,
+    errors,
+  }
+}
+
+export function useJoinGame() {
+  const { sendAlert } = useAlert()
+
+  const { errors, isLoading, isSuccessful, isFailed, makeRequest } =
+    useRequest(joinGame)
+
+  React.useEffect(() => {
+    if (isFailed) {
+      errors.alerts.map(sendAlert)
+    }
+  }, [isFailed])
+
+  return {
+    joinGame: makeRequest,
+    isSuccessful,
     isLoading,
     errors,
   }

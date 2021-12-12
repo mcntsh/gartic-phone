@@ -17,6 +17,8 @@ function Game() {
   const setClassName = useUtilityClasses({ hasGame: !!game })
 
   const gameClassName = setClassName(gameNotFoundClasses)
+  const isFetched = !!game
+  const isStarted = game?.started
 
   React.useEffect(() => {
     if (!game) {
@@ -27,7 +29,8 @@ function Game() {
   return (
     <AppLayout isCentered>
       <section className={gameClassName} data-id="route-game">
-        {!game ? <GameFetching /> : <GameWaiting />}
+        {!isFetched && <GameFetching />}
+        {isFetched && (isStarted ? <span>hello</span> : <GameWaiting />)}
       </section>
     </AppLayout>
   )
