@@ -1,7 +1,7 @@
 import { Model, DataTypes, UUIDV4 } from 'sequelize'
 import randomColor from 'randomcolor'
 import returnFinder from '../../helpers/returnFinder'
-import Game, { GameGuest } from '../game/model'
+import Game, { GameGuest, GameTurn } from '../game/model'
 import database from '../../database'
 
 class Guest extends Model {
@@ -58,6 +58,9 @@ export function init() {
   })
   Guest.belongsToMany(Game, {
     through: GameGuest,
+    foreignKey: 'guest_uuid',
+  })
+  Guest.hasMany(GameTurn, {
     foreignKey: 'guest_uuid',
   })
 

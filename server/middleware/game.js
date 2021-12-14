@@ -115,6 +115,25 @@ export function gameNotStarted(req, res, next) {
   )
 }
 
+export async function gameStarted(req, res, next) {
+  if (req.game.started) {
+    return next()
+  }
+
+  respondJson(
+    {
+      code: 403,
+      alerts: [
+        {
+          intent: 'danger',
+          message: 'The game has not started yet.',
+        },
+      ],
+    },
+    res
+  )
+}
+
 export async function gameJoinedIfStarted(req, res, next) {
   if (!req.game.started) {
     return next()

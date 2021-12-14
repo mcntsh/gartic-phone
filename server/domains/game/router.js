@@ -11,6 +11,7 @@ import {
   gameJoined,
   gameJoinedIfStarted,
   gameCreated,
+  gameStarted,
 } from '../../middleware/game'
 
 const router = Router()
@@ -137,6 +138,35 @@ router.post(
             {
               intent: 'danger',
               message: 'Something went wrong starting the game.',
+            },
+          ],
+        },
+        res
+      )
+    }
+  }
+)
+
+router.get(
+  '/:uuid/round',
+  corsOpen,
+  guestRequired,
+  gameRequired,
+  gameJoined,
+  gameStarted,
+  async (req, res) => {
+    try {
+      const gameRound = await req.game.getLatestRoundForGuest(req.guest)
+      respondJson({ code: 200, body: gameRound }, res)
+    } catch (e) {
+      console.log(e)
+      respondJson(
+        {
+          code: 404,
+          alerts: [
+            {
+              intent: 'danger',
+              message: 'Could not find a round for this game.',
             },
           ],
         },
