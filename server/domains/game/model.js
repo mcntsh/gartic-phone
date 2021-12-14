@@ -1,4 +1,4 @@
-import { Model, DataTypes, UUIDV4, col, literal } from 'sequelize'
+import { Model, DataTypes, UUIDV4, col, fn, literal } from 'sequelize'
 import returnFinder from '../../helpers/returnFinder'
 import Guest from '../guest/model'
 import { GAME_ROUND_TYPES } from './constants'
@@ -186,7 +186,7 @@ export function init() {
     attributes: [
       'uuid',
       'started',
-      [literal('`GameRounds`.`uuid`'), 'current_round'],
+      [fn('COUNT', literal('`GameRounds`.`uuid`')), 'current_round_number'],
       'date_created',
     ],
     include: [
@@ -219,7 +219,7 @@ export function init() {
   })
 
   GameRound.addScope('defaultScope', {
-    attributes: ['uuid', 'type', 'date_created'],
+    attributes: ['type', 'date_created'],
     subQuery: false,
     include: [
       {
